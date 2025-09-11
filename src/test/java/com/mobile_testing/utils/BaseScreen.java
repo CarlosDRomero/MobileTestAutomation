@@ -13,5 +13,9 @@ public abstract class BaseScreen {
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
+    /**
+     * Must be implemented to allow to check if the screen is really displayed, using one or more elements depending on the specific implementation
+     * @return {@code true} if the screen is displayed, otherwise returns {@code false}
+     */
     public abstract boolean isScreenDisplayed();
 }
