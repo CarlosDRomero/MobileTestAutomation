@@ -5,7 +5,7 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.support.PageFactory;
 
 public class BaseScreen {
-    AppiumDriver driver;
+    protected AppiumDriver driver;
 
     public BaseScreen(AppiumDriver driver) {
         this.driver = driver;

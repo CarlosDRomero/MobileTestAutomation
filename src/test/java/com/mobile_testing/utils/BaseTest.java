@@ -20,7 +20,7 @@ public class BaseTest {
     @BeforeMethod
     public void setUp() {
         driver = createDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
     }
 
     /**
