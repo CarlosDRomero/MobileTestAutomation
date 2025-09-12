@@ -3,18 +3,24 @@ package com.mobile_testing.tests;
 import com.mobile_testing.screens.*;
 import com.mobile_testing.utils.BaseTest;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
  * Defines the test cases for app screens navigation
  */
 public class NavigationTests extends BaseTest {
+    HomeScreen homeScreen;
+
+    @BeforeMethod
+    public void loadHomeScreen() {
+        homeScreen = new HomeScreen(driver);
+    }
     /**
      * Checks the section buttons work properly and the new screen selected is displayed everytime.
      */
     @Test(testName = "Bottom menu navigation is working")
     public void tabsNavigation(){
-        HomeScreen homeScreen = new HomeScreen(driver);
         Assert.assertTrue(homeScreen.isScreenDisplayed());
 
         WebviewScreen webviewScreen = homeScreen.navigateToWebViewSection();
