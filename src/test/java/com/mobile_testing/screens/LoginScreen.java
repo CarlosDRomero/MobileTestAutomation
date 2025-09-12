@@ -30,12 +30,12 @@ public class LoginScreen extends SectionScreen{
     WebElement lblEmailError;
     @AndroidFindBy(uiAutomator = "textContains(\"enter at least\")")
     WebElement lblPasswordError;
-    @AndroidFindBy(uiAutomator = "textContains(\"enter the same password\"")
+    @AndroidFindBy(uiAutomator = "textContains(\"enter the same password\")")
     WebElement lblRepeatPasswordError;
     // Success panel elements
     @AndroidFindBy(uiAutomator = "textContains(\"successfully signed up\")")
     WebElement lblSuccessSignUp;
-    @AndroidFindBy(uiAutomator = "textContains(\"logged in\"")
+    @AndroidFindBy(uiAutomator = "textContains(\"logged in\")")
     WebElement lblSuccessLoggedIn;
     @AndroidFindBy(uiAutomator = "text(\"OK\")")
     WebElement btnPanelOk;
