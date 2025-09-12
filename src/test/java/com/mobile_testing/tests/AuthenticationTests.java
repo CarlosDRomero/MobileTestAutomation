@@ -74,6 +74,18 @@ public class AuthenticationTests extends BaseTest {
         Assert.assertTrue(loginScreen.isSuccessfulLogIn());
     }
 
-
+    /**
+     * This test validates that the application is only accepting existent credentials to get logged in
+     */
+    @Test(
+            testName = "The user receives an error when trying to log in with incorrect credentials"
+    )
+    public void badCredentialsLogin() {
+        // Assuming the random email is likely unique, and using a rare password, is almost impossible to get use existent credentials
+        loginScreen.login(RandomEmailGenerator.generateRandomEmail(), "not_aPassword");
+        // Because I created this case knowing the application is not validating the credentials correctly,
+        // so instead of searching for a "login fail" message I use the negation of the successfulLogIn
+        Assert.assertFalse(loginScreen.isSuccessfulLogIn());
+    }
 
 }
