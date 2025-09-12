@@ -14,9 +14,15 @@ public class AuthenticationTests extends BaseTest {
     LoginScreen loginScreen;
     SoftAssert softAssert = new  SoftAssert();
     @DataProvider(name = "randomEmailProvider")
-    public Object[][] createData() {
+    public Object[][] randomEmailData() {
         return new Object[][] {
                 {RandomEmailGenerator.generateRandomEmail(), "12345678"},
+        };
+    }
+    @DataProvider(name = "badDataProvider")
+    public Object[][] createData() {
+        return new Object[][] {
+                {"correont", "1234557", "123457"}
         };
     }
     /**
@@ -39,14 +45,26 @@ public class AuthenticationTests extends BaseTest {
         loginScreen.signUp(email, password, password);
         Assert.assertTrue(loginScreen.isSuccessfulSignUp());
     }
-
+    /**
+     * This test allows to check if the form validations are correct and are displaying error respectively.
+     */
+    @Test(
+            testName = "The form shows error messages when the fields are not valid",
+            dataProvider = "badDataProvider"
+    )
+    public void formErrors(String email, String password, String repeatPassword) {
+        loginScreen.signUp(email, password, repeatPassword);
+        softAssert.assertTrue(loginScreen.isEmailError());
+        softAssert.assertTrue(loginScreen.isPasswordError());
+        softAssert.assertTrue(loginScreen.isRepeatPasswordError());
+        softAssert.assertAll();
+    }
     /**
      * This test allows to check that a user can create an account and then log in correctly
      */
     @Test(
         testName = "User can log in using the correct registered credentials",
         dataProvider = "randomEmailProvider"
-
     )
     public void successfulLogIn(String email, String password) {
         loginScreen.signUp(email, password, password);
@@ -55,6 +73,7 @@ public class AuthenticationTests extends BaseTest {
         loginScreen.login(email, password);
         Assert.assertTrue(loginScreen.isSuccessfulLogIn());
     }
+
 
 
 }
