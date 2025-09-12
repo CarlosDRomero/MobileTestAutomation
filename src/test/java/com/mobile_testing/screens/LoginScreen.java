@@ -134,14 +134,14 @@ public class LoginScreen extends SectionScreen{
      * Checks if the "successfully signed up" message is displayed
      * @return {@code true} if the message is displayed, otherwise returns {@code false}
      */
-    public boolean isSuccessfulSignedUp() {
+    public boolean isSuccessfulSignUp() {
         return lblSuccessSignUp.isDisplayed();
     }
     /**
      * Checks if the "successfully logged in" message is displayed
      * @return {@code true} if the message is displayed, otherwise returns {@code false}
      */
-    public boolean isSuccessfulLoggedIn() {
+    public boolean isSuccessfulLogIn() {
         return lblSuccessLoggedIn.isDisplayed();
     }
     /**
