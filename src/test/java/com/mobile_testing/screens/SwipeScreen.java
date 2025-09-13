@@ -3,9 +3,13 @@ package com.mobile_testing.screens;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class SwipeScreen extends SectionScreen {
 
@@ -44,7 +48,30 @@ public class SwipeScreen extends SectionScreen {
      * @param index: position of the item in the list of carousel items
      * @return {@code true} if the item is displayed, otherwise, returns {@code false}.
      */
-    public boolean isItemVisible(int index) {
+    public boolean isCarouselItemVisible(int index) {
         return index >= 0 && index < carouselItems.size() && carouselItems.get(index).isDisplayed();
+    }
+    // TODO: Create function for ImplicitWait setup in BaseScreen
+    public boolean isCarouselItemInvisible(int index) {
+        try {
+            WebElement carouselItem = carouselItems.get(index);
+
+            // Set implicit wait to 0 for this specific check
+            driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+            return wait.until(ExpectedConditions.invisibilityOf(carouselItem));
+        } catch (NoSuchElementException e) {
+            return true;
+        } finally {
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        }
+    }
+
+    public SwipeScreen swipeCarouselElement() {
+        swipe(carousel, 0,0);
+
+        return this;
     }
 }
