@@ -85,7 +85,10 @@ public class SwipeScreen extends SectionScreen {
      * @return The {@code SwipeScreen}, because it remains on the same screen
      */
     public SwipeScreen swipeCarouselElement() {
-        swipe(carousel, SwipeDirection.HORIZONTAL,-.25f);
+        swipeFromElement(
+                carousel,
+                gestureController.getPixelDirectionVector(SwipeDirection.HORIZONTAL,-.25f)
+        );
 
         return this;
     }
@@ -95,7 +98,10 @@ public class SwipeScreen extends SectionScreen {
      * @return The {@code SwipeScreen}, because it remains on the same screen
      */
     public SwipeScreen swipeVertically() {
-        swipe(gestureController.percentageToPixels(new Vector(.5f, .2f)), SwipeDirection.VERTICAL,-.5f);
+        swipeFromPoint(
+                gestureController.getPixelsVector(.5f, .2f),
+                gestureController.getPixelDirectionVector(SwipeDirection.VERTICAL,-.5f)
+        );
         return this;
     }
 
