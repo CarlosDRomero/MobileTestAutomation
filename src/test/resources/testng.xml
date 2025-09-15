@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="WebDriver IO app Test Suite" verbose="1">
+    <test name="Sauce Tests">
+        <classes>
+            <class name="com.mobile_testing.tests.NavigationTests"/>
+            <class name="com.mobile_testing.tests.AuthenticationTests"/>
+            <class name="com.mobile_testing.tests.SwipeTests"/>
+        </classes>
+    </test>
+</suite>
