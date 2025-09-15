@@ -30,7 +30,7 @@ public class BaseTest {
     public AppiumDriver createDriver() {
         UiAutomator2Options options = new UiAutomator2Options()
                 .setPlatformName("android")
-                .setDeviceName("emulator-5554")
+//                .setDeviceName("emulator-5554") // I commented this line to avoid conflicts with the device name, I realized that appium server will use the first device it finds
                 .setApp(PathGenerator.getApkPath())
                 .setAppActivity(".MainActivity")
                 .setAppPackage("com.wdiodemoapp")
