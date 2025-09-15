@@ -35,7 +35,8 @@ public class SwipeScreen extends SectionScreen {
     WebElement cslItem4;
     @AndroidFindBy(uiAutomator = "resourceId(\"__CAROUSEL_ITEM_5_READY__\")")
     WebElement cslItem5;
-
+    // I defined it as a list, because I can check:
+    // if the element is present using a isEmpty condition instead of catching a NoSuchElement exception
     @AndroidFindBy(uiAutomator = "textContains(\"found me\")")
     List<WebElement> bottomElement;
 
@@ -60,44 +61,65 @@ public class SwipeScreen extends SectionScreen {
     public boolean isCarouselItemVisible(int index) {
         return index >= 0 && index < carouselItems.size() && carouselItems.get(index).isDisplayed();
     }
-    // TODO: Create function for ImplicitWait setup in BaseScreen
+
+    /**
+     * Checks if a carousel element in the list is not displayed
+     * @param index: Position of the carousel element in the list
+     * @return {@code true} if the item is not displayed, otherwise, returns {@code false}.
+     */
     public boolean isCarouselItemInvisible(int index) {
+        disableImplicitWait();
         try {
             WebElement carouselItem = carouselItems.get(index);
-
-            // Set implicit wait to 0 for this specific check
-            driver.manage().timeouts().implicitlyWait(Duration.ZERO);
-
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
             return wait.until(ExpectedConditions.invisibilityOf(carouselItem));
         } catch (NoSuchElementException e) {
             return true;
         } finally {
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+            resetImplicitWaitTimeout();
         }
     }
-
+    /**
+     * Executes a horizontal swipe to advance one carousel element
+     * @return The {@code SwipeScreen}, because it remains on the same screen
+     */
     public SwipeScreen swipeCarouselElement() {
         swipe(carousel, SwipeDirection.HORIZONTAL,-.25f);
 
         return this;
     }
 
+    /**
+     * Swipes vertically to scroll down a certain distance
+     * @return The {@code SwipeScreen}, because it remains on the same screen
+     */
     public SwipeScreen swipeVertically() {
         swipe(gestureController.percentageToPixels(new Vector(.5f, .2f)), SwipeDirection.VERTICAL,-.5f);
         return this;
     }
+
+    /**
+     * Swipes n times vertically to get to the bottom of the screen
+     * @param times: Is the number of times the swipe is going to be executed
+     * @return The {@code SwipeScreen}, when it scrolls the stated number of times or when it reaches the bottom
+     */
     public SwipeScreen swipeToBottom(int times) {
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(100));
+        // I'm taking advantage of the continuous swipe feature,
+        // executing the swipes quickly prevents elements like the carousel from taking the scroll focus
+        setImplicitWaitTimeout(Duration.ofMillis(100));
         for (int i=0; i < times; i++) {
             swipeVertically();
             if (isBottomElementDisplayed()) break;
         }
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        resetImplicitWaitTimeout();
         return this;
     }
 
+    /**
+     * Checks if the list is empty, to verify if the element is present or not
+     * @return {@code true} if the list is not empty, otherwise returns {@code false}
+     */
     public boolean isBottomElementDisplayed() {
         return !bottomElement.isEmpty();
     }
