@@ -14,7 +14,7 @@ import java.time.Duration;
 import java.util.List;
 
 public abstract class BaseScreen {
-
+    private static final int IMPLICIT_WAIT_SECONDS = 20;
     protected AppiumDriver driver;
 
     protected final GestureController gestureController;
@@ -30,6 +30,27 @@ public abstract class BaseScreen {
      * @return {@code true} if the screen is displayed, otherwise returns {@code false}
      */
     public abstract boolean isScreenDisplayed();
+
+    /**
+     * Changes the implicit wait duration
+     * @param duration: {@code Duration} object which allows to set values with flexibility
+     */
+    public void setImplicitWaitTimeout(Duration duration) {
+        driver.manage().timeouts().implicitlyWait(duration);
+    }
+
+    /**
+     * Sets the implicit wait duration to 0 to disable it
+     */
+    public void disableImplicitWait() {
+        driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+    }
+    /**
+     * Sets the implicit wait duration to its default value
+     */
+    public void resetImplicitWaitTimeout() {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT_SECONDS));
+    }
 
     public void swipe(WebElement element, SwipeDirection direction, float percentageLength) {
         // Getting the start and end point of the swipe
