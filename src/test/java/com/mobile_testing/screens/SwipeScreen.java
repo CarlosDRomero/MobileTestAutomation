@@ -1,5 +1,7 @@
 package com.mobile_testing.screens;
 
+import com.mobile_testing.utils.gesture.SwipeDirection;
+import com.mobile_testing.utils.gesture.Vector;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebElement;
@@ -31,6 +33,11 @@ public class SwipeScreen extends SectionScreen {
     WebElement cslItem4;
     @AndroidFindBy(uiAutomator = "resourceId(\"__CAROUSEL_ITEM_5_READY__\")")
     WebElement cslItem5;
+
+    @AndroidFindBy(uiAutomator = "textContains(\"found me\")")
+    WebElement bottomElement;
+
+
 
     List<WebElement> carouselItems;
 
@@ -70,8 +77,26 @@ public class SwipeScreen extends SectionScreen {
     }
 
     public SwipeScreen swipeCarouselElement() {
-        swipe(carousel, 0,0);
+        swipe(carousel, SwipeDirection.HORIZONTAL,-.25f);
 
         return this;
+    }
+
+    public SwipeScreen swipeVertically() {
+        swipe(gestureController.percentageToPixels(new Vector(.5f, .2f)), SwipeDirection.VERTICAL,-1f);
+        return this;
+    }
+    public SwipeScreen swipeToBottom(int times) {
+        driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+        for (int i=0; i < times; i++) {
+            swipe(gestureController.percentageToPixels(new Vector(.5f, .2f)), SwipeDirection.VERTICAL,-1f);
+            if (isBottomElementDisplayed()) break;
+        }
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        return this;
+    }
+
+    public boolean isBottomElementDisplayed() {
+        return bottomElement.isDisplayed();
     }
 }

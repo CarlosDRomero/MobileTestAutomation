@@ -1,5 +1,8 @@
 package com.mobile_testing.utils;
 
+import com.mobile_testing.utils.gesture.GestureController;
+import com.mobile_testing.utils.gesture.SwipeDirection;
+import com.mobile_testing.utils.gesture.Vector;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.WebElement;
@@ -14,9 +17,12 @@ public abstract class BaseScreen {
 
     protected AppiumDriver driver;
 
+    protected final GestureController gestureController;
+
     public BaseScreen(AppiumDriver driver) {
         this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+        gestureController = new GestureController(driver);
     }
 
     /**
@@ -25,20 +31,24 @@ public abstract class BaseScreen {
      */
     public abstract boolean isScreenDisplayed();
 
-    // TODO: Implement function with a total delta of movement, using a parameter to know if the swipe is vertical or horizontal
-    public void swipe(WebElement element, float dx, float dy) {
-        // Getting the center of the element
-        int X = (element.getSize().width / 2) + element.getRect().getX();
-        int Y = (element.getSize().height / 2) + element.getRect().getY();
+    public void swipe(WebElement element, SwipeDirection direction, float percentageLength) {
+        // Getting the start and end point of the swipe
+        Vector startPoint = gestureController.getElementCenter(element);
+        swipe(startPoint, direction, percentageLength);
 
+    }
+    public void swipe(Vector startPoint, SwipeDirection direction, float percentageLength) {
+        Vector endPoint = startPoint.add(gestureController.getDirectionVector(direction, percentageLength));
+        swipe(startPoint, endPoint);
+    }
+    public void swipe(Vector startPoint, Vector endPoint) {
         PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
 
         Sequence sequence = new Sequence(finger, 0)
-                .addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), X, Y))
+                .addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startPoint.getIntX(), startPoint.getIntY()))
                 .addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
-                .addAction(finger.createPointerMove(Duration.ofMillis(600), PointerInput.Origin.viewport(), 0, Y))
+                .addAction(finger.createPointerMove(Duration.ofMillis(100), PointerInput.Origin.viewport(), endPoint.getIntX(), endPoint.getIntY()))
                 .addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         driver.perform(List.of(sequence));
-
     }
 }

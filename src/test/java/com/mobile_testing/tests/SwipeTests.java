@@ -14,12 +14,18 @@ public class SwipeTests extends BaseTest {
         HomeScreen homeScreen = new HomeScreen(driver);
         swipeScreen = homeScreen.navigateToSwipeSection();
     }
-    @Test
-    public void SwipeTest() {
-        int lastIndex = 5;
+    @Test(testName = "Scrolling the carousel items changes the elements being displayed")
+    public void carouselScrolling() {
+        int lastIndex = 4;
         for (int i = 0; i <= lastIndex; i++) {
             swipeScreen.swipeCarouselElement();
             Assert.assertTrue(swipeScreen.isCarouselItemInvisible(i));
         }
+    }
+    @Test
+    public void swipeToBottom() {
+        swipeScreen.swipeToBottom(5);
+        // Try fluent wait
+        Assert.assertTrue(swipeScreen.isBottomElementDisplayed());
     }
 }
