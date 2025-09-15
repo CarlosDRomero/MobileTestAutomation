@@ -52,16 +52,33 @@ public abstract class BaseScreen {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT_SECONDS));
     }
 
-    public void swipe(WebElement element, SwipeDirection direction, float percentageLength) {
+    /**
+     * Swipes a certain distance from the center of an element (Internally using {@code swipeFromPoint} method)
+     * @param element: The element to get the center
+     * @param directionVector: The vector that sets the direction of the swipe from that center, this must be given in pixels (use {@code gestureController} to convert values)
+)
+     */
+    public void swipeFromElement(WebElement element, Vector directionVector) {
         // Getting the start and end point of the swipe
         Vector startPoint = gestureController.getElementCenter(element);
-        swipe(startPoint, direction, percentageLength);
+        swipeFromPoint(startPoint, directionVector);
 
     }
-    public void swipe(Vector startPoint, SwipeDirection direction, float percentageLength) {
-        Vector endPoint = startPoint.add(gestureController.getDirectionVector(direction, percentageLength));
+
+    /**
+     * Swipes a certain distance from a starting point (Internally using the {@code swipe} method)
+     * @param startPoint: The vector representing the starting point of the swipe, this must be given in pixels (use {@code gestureController} to convert values)
+     * @param directionVector: The vector that sets the direction of the swipe from that center, this must be given in pixels (use {@code gestureController} to convert values)
+     */
+    public void swipeFromPoint(Vector startPoint, Vector directionVector) {
+        Vector endPoint = startPoint.add(directionVector);
         swipe(startPoint, endPoint);
     }
+    /**
+     * Swipes from a starting point to an ending point
+     * @param startPoint: The vector representing the starting point of the swipe, this must be given in pixels (use {@code gestureController} to convert values)
+     * @param endPoint: The vector representing the ending point of the swipe, this must be given in pixels (use {@code gestureController} to convert values)
+     */
     public void swipe(Vector startPoint, Vector endPoint) {
         PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
 
