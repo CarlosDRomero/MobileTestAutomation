@@ -63,3 +63,7 @@ Each test class contains Javadoc comments and descriptive `testName` annotations
 
     * `carouselScrolling`: sequential end-to-end test that swipes through carousel items and verifies each becomes invisible after swipe.
     * `swipeToBottom`: swipes until a bottom element is found.
+* **DragTests** ([DragTests.java](src/test/java/com/mobile_testing/tests/DragTests.java))
+
+    * `solvePuzzle`: sequential end-to-end test that that drags and drops all the puzzle pieces into their correct slots, and checks if a completion message is displayed.
+    * `failedDragAndDrop`: Drags puzzle pieces to incorrect slots to verify that the application is not allowing that, so after the drag action, the elements must persist in the DOM.

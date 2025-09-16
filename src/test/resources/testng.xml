@@ -5,6 +5,7 @@
             <class name="com.mobile_testing.tests.NavigationTests"/>
             <class name="com.mobile_testing.tests.AuthenticationTests"/>
             <class name="com.mobile_testing.tests.SwipeTests"/>
+            <class name="com.mobile_testing.tests.DragTests"/>
         </classes>
     </test>
 </suite>
