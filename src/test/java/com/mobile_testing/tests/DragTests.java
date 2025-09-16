@@ -5,11 +5,23 @@ import com.mobile_testing.screens.HomeScreen;
 import com.mobile_testing.utils.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class DragTests extends BaseTest {
     DragScreen dragScreen;
-
+    /**
+     * @return an Array of drag and drop indexes that does not match
+     */
+    @DataProvider(name = "BadDragAndDrop")
+    public Object[][] getBadDragAndDrop() {
+        return new Object[][]{
+            {Arrays.asList(new int[]{0, 2}, new int[]{8, 3}, new int[]{4, 3}, new int[]{3, 1})}
+        };
+    }
     /**
      * Navigates to the drag screen as a precondition for the following tests
      */
@@ -26,6 +38,24 @@ public class DragTests extends BaseTest {
     public void solvePuzzle() {
         dragScreen.solveDragAndDrop();
         Assert.assertTrue(dragScreen.isPuzzleCompleted());
+    }
+
+    /**
+     * This tests verifies that when an element
+     * @param indexPairs: A list of drag and drop indexes pairs to test
+     */
+    @Test(
+            testName = "The drag and drop elements does not disappear if the drag is no correct",
+            dataProvider = "BadDragAndDrop"
+    )
+    public void failedDragAndDrop(List<int[]> indexPairs) {
+        for (int[] indexPair : indexPairs) {
+            int dragIndex = indexPair[0];
+            int dropIndex = indexPair[1];
+            dragScreen.dragElementByIndex(dragIndex, dropIndex);
+            Assert.assertFalse(dragScreen.isSuccessDragAndDrop(dragIndex, dropIndex));
+        }
+
     }
 
 }

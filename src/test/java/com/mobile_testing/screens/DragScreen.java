@@ -3,6 +3,7 @@ package com.mobile_testing.screens;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -94,8 +95,10 @@ public class DragScreen extends SectionScreen {
                             ExpectedConditions.invisibilityOf(dragElement),
                             ExpectedConditions.invisibilityOf(dropElement)
                     ));
-        }catch (NoSuchElementException e){
+        }catch (NoSuchElementException e) {
             return true;
+        } catch (TimeoutException e) {
+            return false;
         }finally {
             resetImplicitWaitTimeout();
         }
