@@ -78,7 +78,7 @@ public abstract class BaseScreen {
         // Getting the start and end point of the swipe as the center of the elements
         Vector startPoint = gestureController.getElementCenter(startElement);
         Vector endPoint = gestureController.getElementCenter(endElement);
-        swipe(startPoint, endPoint, Duration.ofMillis(100));
+        swipe(startPoint, endPoint, Duration.ofMillis(500));
 
     }
     /**
