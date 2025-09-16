@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
@@ -51,12 +53,14 @@ public abstract class BaseScreen {
     public void resetImplicitWaitTimeout() {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT_SECONDS));
     }
-
+    public boolean explicitlyWait(Duration duration, ExpectedCondition<Boolean> conditions) {
+        WebDriverWait wait = new WebDriverWait(driver, duration);
+        return wait.until(conditions);
+    }
     /**
      * Swipes a certain distance from the center of an element (Internally using {@code swipeFromPoint} method)
      * @param element: The element to get the center
      * @param directionVector: The vector that sets the direction of the swipe from that center, this must be given in pixels (use {@code gestureController} to convert values)
-)
      */
     public void swipeFromElement(WebElement element, Vector directionVector) {
         // Getting the start point of the swipe
