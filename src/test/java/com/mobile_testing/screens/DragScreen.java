@@ -85,7 +85,7 @@ public class DragScreen extends SectionScreen {
      * @param dropElementIndex: Is the index of the drop element in the list
      * @return {@code true} if the elements are invisible, else it returns {@code false}
      */
-    public boolean dragElement(int dragElementIndex, int dropElementIndex) {
+    public boolean isSuccessDragAndDrop(int dragElementIndex, int dropElementIndex) {
         disableImplicitWait();
         WebElement dragElement = dragList.get(dragElementIndex), dropElement  = dropList.get(dropElementIndex);
         try {
