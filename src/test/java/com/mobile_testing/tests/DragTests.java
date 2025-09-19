@@ -39,6 +39,16 @@ public class DragTests extends BaseTest {
         dragScreen.solveDragAndDrop();
         Assert.assertTrue(dragScreen.isPuzzleCompleted());
     }
+    /**
+     * This test solves the puzzle and then tries to tap the retry button to check if the puzzle is really resetting
+     */
+    @Test(testName = "Once the user have completed the puzzle, they can reset it")
+    public void puzzleCanBeReset() {
+        dragScreen.solveDragAndDrop();
+        dragScreen.tapRetrybutton();
+        Assert.assertTrue(dragScreen.isDropAreaEmpty());
+
+    }
 
     /**
      * This tests verifies that when an element

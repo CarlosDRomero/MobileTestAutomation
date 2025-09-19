@@ -69,6 +69,8 @@ public class DragScreen extends SectionScreen {
 
     @AndroidFindBy(uiAutomator = "text(\"Congratulations\")")
     WebElement lblCongratulations;
+    @AndroidFindBy(uiAutomator = "description(\"button-Retry\")")
+    WebElement btnRetryPuzzle;
 
     public DragScreen(AppiumDriver driver) {
         super(driver);
@@ -105,6 +107,26 @@ public class DragScreen extends SectionScreen {
     }
 
     /**
+     * Checks if the drag element and drop element pair is visible, which means the drop element is empty
+     * @param index: Index of the drag and drops elements in their respective lists
+     * @return {@code true} if the pair is visible, otherwise returns {@code false}
+     */
+    public boolean isDropElementEmpty(int index) {
+        disableImplicitWait();
+        WebElement dragElement = dragList.get(index), dropElement  = dropList.get(index);
+        try {
+            return explicitlyWait(Duration.ofSeconds(5),
+                    ExpectedConditions.and(
+                            ExpectedConditions.visibilityOf(dragElement),
+                            ExpectedConditions.visibilityOf(dropElement)
+                    ));
+        }catch (NoSuchElementException e) {
+            return false;
+        }finally {
+            resetImplicitWaitTimeout();
+        }
+    }
+    /**
      * Drags the correct drag element to its respective drop element, using the same index for both
      * @param index: Is the index of the drag element and the drop element in the lists
      * @return The {@code DragScreen}, because it remains on the same screen
@@ -140,5 +162,25 @@ public class DragScreen extends SectionScreen {
      */
     public boolean isPuzzleCompleted() {
         return lblCongratulations.isDisplayed();
+    }
+
+    /**
+     * Verifies that all the pieces of the puzzle are out of the drop area
+     * @return {@code true} if all the pieces are out, but if one or more are in its position then returns {@code false}
+     */
+    public boolean isDropAreaEmpty(){
+        for  (int i = 0; i< dropList.size(); i++) {
+
+            if (!isDropElementEmpty(i)) return false;
+        }
+        return true;
+    }
+    /**
+     * Does a tap on the retry button
+     * @return The {@code DragScreen}, because it remains on the same screen
+     */
+    public DragScreen tapRetrybutton(){
+        btnRetryPuzzle.click();
+        return this;
     }
 }
